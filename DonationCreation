@@ -1,4 +1,4 @@
-validity for expiration date public static Id createDonationRecord(String foodType, Integer quantity, String expirationDate, Id donorId) {
+public static Id createDonationRecord(String foodType, Integer quantity, String expirationDate, Id donorId) {
     // Parse the expiration date
     Date expDate = Date.parse(expirationDate);
 
