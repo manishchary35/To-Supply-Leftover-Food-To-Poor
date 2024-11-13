@@ -1,0 +1,7 @@
+trigger UpdateDonorStatus on Food_Donation__c (after insert, after update) {
+    for(Food_Donation__c donation : Trigger.New) {
+        if(donation.Status__c == 'Delivered') {
+            // Implement logic to update related donor record, send notification, etc.
+        }
+    }
+}
