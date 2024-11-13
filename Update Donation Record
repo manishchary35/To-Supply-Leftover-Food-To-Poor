@@ -1,0 +1,17 @@
+trigger UpdateDonorLastDonationDate on Food_Donation__c (after insert, after update) {
+    Set<Id> donorIds = new Set<Id>();
+    for(Food_Donation__c donation : Trigger.New) {
+        if(donation.Donor__c != null) {
+            donorIds.add(donation.Donor__c);
+        }
+    }
+    if(!donorIds.isEmpty()) {
+        List<Donor_c> donors = [SELECT Id, Last_Donation_Date_c 
+                                 FROM Donor__c 
+                                 WHERE Id IN :donorIds];
+        for(Donor__c donor : donors) {
+            donor.Last_Donation_Date__c = System.today();
+        }
+        update donors;
+    }
+}
