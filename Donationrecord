@@ -1,0 +1,27 @@
+validity for expiration date public static Id createDonationRecord(String foodType, Integer quantity, String expirationDate, Id donorId) {
+    // Parse the expiration date
+    Date expDate = Date.parse(expirationDate);
+
+    // Validation: Check if expiration date is in the past
+    if (expDate < Date.today()) {
+        System.debug('Error: Expiration date cannot be in the past.');
+        return null;
+    }
+
+    // Continue creating donation if date is valid
+    Donation_c newDonation = new Donation_c();
+    newDonation.Food_Type__c = foodType;
+    newDonation.Quantity__c = quantity;
+    newDonation.Expiration_Date__c = expDate;
+    newDonation.Donor__c = donorId;
+    newDonation.Status__c = 'Available';
+
+    try {
+        insert newDonation;
+        System.debug('Donation record created with ID: ' + newDonation.Id);
+        return newDonation.Id;
+    } catch (DmlException e) {
+        System.debug('Error creating donation record: ' + e.getMessage());
+        return null;
+    }
+}
